@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Note : MonoBehaviour
 {
-    private const float autoDestroyTime = 6;
+    private const float autoDestroyTime = 2;
     private float generatedTime;
     private float justTime;
     public float JustTime => justTime;
