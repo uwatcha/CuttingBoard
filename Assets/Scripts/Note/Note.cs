@@ -2,19 +2,28 @@ using UnityEngine;
 
 public class Note : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private const float autoDestroyTime = 6;
+    private TimeManager timeManager;
+    private float generatedTime;
+    private float justTime;
+    public float JustTime => justTime;
+    public void Initialize(float x, float y, float justTime, TimeManager timeManager)
     {
-        
+        transform.position = new Vector3 (x, y, 0);
+        this.timeManager = timeManager;
+        generatedTime = timeManager.GetPlayingTime();
+        this.justTime = justTime;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (timeManager.GetPlayingTime() >= generatedTime+autoDestroyTime)
+        {
+            Destroy(gameObject);
+        }
     }
     void OnMouseDown()
     {
-        Logger.Log("Mouse Downed.");
+        Destroy(gameObject);
     }
 }
