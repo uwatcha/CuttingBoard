@@ -890,7 +890,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 862636620}
-  timeManager: {fileID: 2069252378}
 --- !u!1001 &902689839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1281,7 +1280,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   notePrefab: {fileID: 8072377996273538773, guid: 32817634100c246cab596e88c3b77e2b, type: 3}
-  timeManager: {fileID: 2069252378}
   noteJustTimeTexts:
   - {fileID: 7018244152411364314}
   - {fileID: 974995753}
@@ -1297,7 +1295,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2069252379}
-  - component: {fileID: 2069252378}
+  - component: {fileID: 2069252380}
   m_Layer: 0
   m_Name: TimeManager
   m_TagString: Untagged
@@ -1305,18 +1303,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2069252378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2069252377}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35ff0022f776e4ae48e5299ef952f409, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &2069252379
 Transform:
   m_ObjectHideFlags: 0
@@ -1332,6 +1318,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2069252380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069252377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2719b2e2555b74667a172b221725a897, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7018244152411364312
 PrefabInstance:
   m_ObjectHideFlags: 0
