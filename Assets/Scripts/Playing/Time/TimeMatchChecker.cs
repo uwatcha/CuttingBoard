@@ -11,7 +11,7 @@ public class TimeMatchChecker
         matchedTime = float.MaxValue;
     }
 
-    public bool IsAtTime(float targetTime)
+    public bool IsNowAtTime(float targetTime)
     {
         if (!hasMatched && Math.Abs(Timer.GetPlayingTime() - targetTime) < Time.deltaTime * 0.9)
         {
