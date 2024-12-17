@@ -14,34 +14,18 @@ public class NoteJudgment
         new(Judgment.Bad, 3),
         new(Judgment.Miss, 3)
     };
-    Queue<List<Note>> generatedNotes;
-    public NoteJudgment(Queue<List<Note>> generatedNotes)
-    {
-        this.generatedNotes = generatedNotes;
-    }
+
     public Judgment? Judge(Note note)
     {
-        if (generatedNotes.Peek().Contains(note))
+        double touchDiff = Timer.GetPlayingTime() - note.JustTime;
+        double spanMilliseconds = 0;
+        foreach (KeyValuePair<Judgment, double> e in judgmentSpans)
         {
-            double touchDiff = Timer.GetPlayingTime() - note.JustTime;
-            double spanMilliseconds = 0;
-            foreach(KeyValuePair<Judgment, double> e in judgmentSpans)
+            spanMilliseconds += e.Value;
+            if (touchDiff < spanMilliseconds)
             {
-                spanMilliseconds += e.Value;
-                if (touchDiff < spanMilliseconds)
-                {
-                    if (generatedNotes.Count >= 2)
-                    {
-                        generatedNotes.Peek().Remove(note);
-                    }
-                    else
-                    {
-                        generatedNotes.Dequeue();
-                    }
-                    Logger.Log($"Judged Note: {note.gameObject.name}");
-                    Logger.Log($"Judgment: {e.Key}");
-                    return e.Key;
-                }
+                Logger.Log($"Judged Note: {note.gameObject.name}, {e.Key}");
+                return e.Key;
             }
         }
         return null;

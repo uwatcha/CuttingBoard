@@ -10,14 +10,9 @@ public class NoteManager : DontDestroySingleton<NoteManager>
     [SerializeField] private List<JustTimeText> noteJustTimeTexts;
     private readonly List<Vector2> notePositions = new() { new Vector2(4, 7.5f), new Vector2(12, 7.5f), new Vector2(12, 2.5f), new Vector2(4, 2.5f) };
     [SerializeField] private Transform notesDirectory;
-    private Queue<List<Note>> generatedNotes = new();//複数で1つのNoteが今後できれば、キューの１要素に複数のNoteを入れる
-    private NoteJudgment noteJudgment;
+    private Queue<Note> generatedNotes = new();
+    private NoteJudgment noteJudgment = new();
     private List<Judgment> results = new();
-
-    void Start()
-    {
-        noteJudgment = new(generatedNotes);
-    }
 
     void Update()
     {
@@ -28,10 +23,7 @@ public class NoteManager : DontDestroySingleton<NoteManager>
                 noteJustTimeTexts[i % 4].Note = GenerateNote(notePositions[i % 4].x, notePositions[i % 4].y, i + 1);
                 if (i >= 2)
                 {
-                    generatedNotes.Dequeue().ForEach((note) =>
-                    {
-                        Destroy(note.gameObject);
-                    });
+                    Destroy(generatedNotes.Dequeue().gameObject);
                 }
             }
         }
@@ -51,7 +43,7 @@ public class NoteManager : DontDestroySingleton<NoteManager>
         Note note = Instantiate(notePrefab, notesDirectory);
         note.Initialize(x, y, justTime, SummarizeJudgments);
         note.gameObject.name = "Note_JustTime: " + justTime;
-        generatedNotes.Enqueue(new() { note });
+        generatedNotes.Enqueue(note);
         return note;
     }
 }
