@@ -1,10 +1,11 @@
+using System;
 using UnityEngine;
 public static class Timer
 {
     public static void Initialize()
     {
-        playStartTime = Time.time;
+        playStartTime = Time.timeAsDouble;
     }
-    private static float playStartTime;
-    public static float GetPlayingTime() => Time.time - playStartTime;
+    private static double playStartTime;
+    public static double GetPlayingTime() => Time.timeAsDouble - playStartTime;
 }

@@ -1,32 +1,21 @@
+using System;
 using UnityEngine;
 
 public class Note : MonoBehaviour
 {
-    private const float autoDestroyTime = 2;
-    private TimeMatchChecker tmc = new();
-    private float generatedTime;
-    private float justTime;
-    public float JustTime => justTime;
+    private double justTime;
+    public double JustTime => justTime;
+    private Action<Note> action;
     
-    public void Initialize(float x, float y, float justTime)
+    public void Initialize(float x, float y, double justMilliseconds, Action<Note> action)
     {
         transform.position = new Vector3 (x, y, 0);
-        generatedTime = Timer.GetPlayingTime();
-        this.justTime = justTime;
-    }
-
-    void Update()
-    {
-        if (Timer.GetPlayingTime() >= generatedTime+autoDestroyTime)
-        {
-            Destroy(gameObject);
-        }
+        this.justTime = justMilliseconds;
+        this.action += action;
     }
     public void OnMouseDown()
     {
-        if (tmc.IsNowAtTime(justTime))
-        {
-            
-        }
+        Logger.Log($"Touched: {gameObject.name}");
+        action.Invoke(this);
     }
 }

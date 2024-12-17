@@ -1285,7 +1285,7 @@ MonoBehaviour:
   - {fileID: 974995753}
   - {fileID: 647733020}
   - {fileID: 902689841}
-  notes: {fileID: 1510725018}
+  notesDirectory: {fileID: 1510725018}
 --- !u!1 &2069252377
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class NoteManager : MonoBehaviour
+public class NoteManager : DontDestroySingleton<NoteManager>
 {
     [SerializeField] private Note notePrefab;
     private readonly TimeMatchChecker tmc = new();
@@ -11,9 +11,13 @@ public class NoteManager : MonoBehaviour
     private readonly List<Vector2> notePositions = new() { new Vector2(4, 7.5f), new Vector2(12, 7.5f), new Vector2(12, 2.5f), new Vector2(4, 2.5f) };
     [SerializeField] private Transform notesDirectory;
     private Queue<List<Note>> generatedNotes = new();//複数で1つのNoteが今後できれば、キューの１要素に複数のNoteを入れる
-    private Action generatedNoteAction;
+    private NoteJudgment noteJudgment;
+    private List<Judgment> results = new();
 
-
+    void Start()
+    {
+        noteJudgment = new(generatedNotes);
+    }
 
     void Update()
     {
@@ -26,19 +30,28 @@ public class NoteManager : MonoBehaviour
                 {
                     generatedNotes.Dequeue().ForEach((note) =>
                     {
-                        Logger.Log($"note: {note.gameObject.name}"); generatedNoteAction -= note.OnMouseDown;
+                        Destroy(note.gameObject);
                     });
                 }
             }
         }
     }
+
+    private void SummarizeJudgments(Note note)
+    {
+        Judgment? result = noteJudgment.Judge(note);
+        if (result != null)
+        {
+            results.Add(result.Value);
+            Destroy(note.gameObject);
+        }
+    }
     private Note GenerateNote(float x, float y, float justTime)
     {
         Note note = Instantiate(notePrefab, notesDirectory);
-        note.Initialize(x, y, justTime);
+        note.Initialize(x, y, justTime, SummarizeJudgments);
         note.gameObject.name = "Note_JustTime: " + justTime;
         generatedNotes.Enqueue(new() { note });
-        generatedNoteAction += note.OnMouseDown;
         return note;
     }
 }
