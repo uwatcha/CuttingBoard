@@ -13,9 +13,28 @@ public class Note : MonoBehaviour
         this.justTime = justMilliseconds;
         this.action += action;
     }
-    public void OnMouseDown()
+    // void OnMouseDown()
+    // {
+    //     Logger.Log($"Touched: {gameObject.name}");
+    //     action.Invoke(this);
+    // }
+
+    // public void OnPointerEnter(PointerEventData eventData)
+    // {
+    //     Logger.Log($"OnPointerEnter: ${gameObject.name}");
+    // }
+
+    // void Update()
+    // {
+    //     if (Input.GetMouseButtonDown(0))
+    //     {
+    //         Logger.Log("GetMouseButtonDown(0)");
+    //     }
+    // }
+
+    public void OnPointerDown()
     {
-        Logger.Log($"Touched: {gameObject.name}");
-        action.Invoke(this);
+        Logger.Log($"OnPointerDown: {gameObject.name}");
     }
+
 }

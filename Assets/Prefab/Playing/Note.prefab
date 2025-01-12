@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4475673557131261846}
   - component: {fileID: 5950632021256129207}
   - component: {fileID: 8072377996273538773}
-  - component: {fileID: 5031446781530860751}
   m_Layer: 0
   m_Name: Note
   m_TagString: Untagged
@@ -102,42 +101,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 077e808da60334550840d7e97661aff0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!58 &5031446781530860751
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4498949355134036845}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
 --- !u!1 &9005110820435943919
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,5 +202,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shrinkSpeed: 0.0005
+  minRingScale: 0.0445
   justRingScale: 0.0445
-  ringSprite: {fileID: 0}
