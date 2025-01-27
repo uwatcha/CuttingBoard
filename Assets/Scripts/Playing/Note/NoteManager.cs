@@ -1,7 +1,6 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class NoteManager : DontDestroySingleton<NoteManager>
@@ -11,7 +10,7 @@ public class NoteManager : DontDestroySingleton<NoteManager>
     [SerializeField] private List<JustTimeText> noteJustTimeTexts;
     private readonly List<Vector2> notePositions = new() { new Vector2(4, 7.5f), new Vector2(12, 7.5f), new Vector2(12, 2.5f), new Vector2(4, 2.5f) };
     [SerializeField] private Transform notesDirectory;
-    private Queue<Note> generatedNotes = new(); //TODO: キューやめる
+    private List<Note> generatedNotes = new();
     private NoteJudgment noteJudgment = new();
     private List<Judgment> results = new();
     [SerializeField] private TextMeshProUGUI touchNotesCountText;
@@ -26,7 +25,7 @@ public class NoteManager : DontDestroySingleton<NoteManager>
                 noteJustTimeTexts[i % 4].Note = GenerateNote(notePositions[i % 4].x, notePositions[i % 4].y, i + 2);
                 if (i >= 3)
                 {
-                    Destroy(generatedNotes.Dequeue().gameObject);
+                    RemoveNote(generatedNotes.Last());
                 }
             }
         }
@@ -38,7 +37,7 @@ public class NoteManager : DontDestroySingleton<NoteManager>
         if (result != null)
         {
             results.Add(result.Value);
-            Destroy(note.gameObject);
+            RemoveNote(note);
             touchNotesCountText.text = $"TouchNotes: {results.Count}";
             judgmentText.text = $"{result.Value}";
         }
@@ -49,7 +48,13 @@ public class NoteManager : DontDestroySingleton<NoteManager>
         Note note = Instantiate(notePrefab, notesDirectory);
         note.Initialize(x, y, justTime, SumJudgments);
         note.gameObject.name = "Note_JustTime: " + justTime;
-        generatedNotes.Enqueue(note);
+        generatedNotes.Insert(0, note);
         return note;
+    }
+
+    private void RemoveNote(Note removedNote)
+    {
+        generatedNotes.Remove(removedNote);
+        Destroy(removedNote.gameObject);
     }
 }

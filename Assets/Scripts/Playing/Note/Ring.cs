@@ -1,7 +1,4 @@
-using System;
-using Unity.Mathematics;
 using UnityEngine;
-//TODO: ジャストタイミングに縮小をあわせる
 public class Ring : MonoBehaviour
 {
     [SerializeField] private float shrinkSpeed = 0.0005f;
