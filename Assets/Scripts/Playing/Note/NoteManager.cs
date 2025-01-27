@@ -23,8 +23,8 @@ public class NoteManager : DontDestroySingleton<NoteManager>
         {
             if (tmc.IsNowAtTime(i))
             {
-                noteJustTimeTexts[i % 4].Note = GenerateNote(notePositions[i % 4].x, notePositions[i % 4].y, i + 1);
-                if (i >= 2)
+                noteJustTimeTexts[i % 4].Note = GenerateNote(notePositions[i % 4].x, notePositions[i % 4].y, i + 2);
+                if (i >= 3)
                 {
                     Destroy(generatedNotes.Dequeue().gameObject);
                 }
@@ -40,7 +40,7 @@ public class NoteManager : DontDestroySingleton<NoteManager>
             results.Add(result.Value);
             Destroy(note.gameObject);
             touchNotesCountText.text = $"TouchNotes: {results.Count}";
-            judgmentText.text = $"Judgment: {result.Value}";
+            judgmentText.text = $"{result.Value}";
         }
     }
     
