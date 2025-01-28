@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 public class NoteJudgment
@@ -23,7 +24,7 @@ public class NoteJudgment
             spanMilliseconds += e.Value;
             Logger.Log($"e.Value: {e.Value}");
             Logger.Log($"spanMilliseconds: {spanMilliseconds}");
-            if (touchDiff < spanMilliseconds)
+            if (Math.Abs(touchDiff) < spanMilliseconds)
             {
                 Logger.Log($"Judged Note: {note.gameObject.name}, {e.Key}");
                 return e.Key;

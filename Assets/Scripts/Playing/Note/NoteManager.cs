@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using System;
+using System.Reflection;
 
 public class NoteManager : DontDestroySingleton<NoteManager>
 {
@@ -11,6 +13,7 @@ public class NoteManager : DontDestroySingleton<NoteManager>
     private readonly List<Vector2> notePositions = new() { new Vector2(4, 7.5f), new Vector2(12, 7.5f), new Vector2(12, 2.5f), new Vector2(4, 2.5f) };
     [SerializeField] private Transform notesDirectory;
     private List<Note> generatedNotes = new();
+    //TODO: 降順になっていた
     private NoteJudgment noteJudgment = new();
     private List<Judgment> results = new();
     [SerializeField] private TextMeshProUGUI touchNotesCountText;
@@ -22,6 +25,7 @@ public class NoteManager : DontDestroySingleton<NoteManager>
         {
             if (tmc.IsNowAtTime(i))
             {
+                Logger.Log($"Now is Generate time: {i}");
                 noteJustTimeTexts[i % 4].Note = GenerateNote(notePositions[i % 4].x, notePositions[i % 4].y, i + 2);
                 if (i >= 3)
                 {
@@ -45,6 +49,7 @@ public class NoteManager : DontDestroySingleton<NoteManager>
     
     private Note GenerateNote(float x, float y, float justTime)
     {
+        Logger.Log($"GenerateNote(): {gameObject.name}");
         Note note = Instantiate(notePrefab, notesDirectory);
         note.Initialize(x, y, justTime, SumJudgments);
         note.gameObject.name = "Note_JustTime: " + justTime;
