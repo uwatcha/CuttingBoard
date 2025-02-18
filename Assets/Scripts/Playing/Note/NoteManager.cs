@@ -1,9 +1,6 @@
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
-using System;
-using System.Reflection;
 
 public class NoteManager : DontDestroySingleton<NoteManager>
 {
@@ -12,24 +9,30 @@ public class NoteManager : DontDestroySingleton<NoteManager>
     [SerializeField] private List<JustTimeText> noteJustTimeTexts;
     private readonly List<Vector2> notePositions = new() { new Vector2(4, 7.5f), new Vector2(12, 7.5f), new Vector2(12, 2.5f), new Vector2(4, 2.5f) };
     [SerializeField] private Transform notesDirectory;
+    [SerializeField] private double selfDestroyTime = 3;
     private List<Note> generatedNotes = new();
-    //TODO: 降順になっていた
+    private List<double> generatedTimes = new();
     private NoteJudgment noteJudgment = new();
     private List<Judgment> results = new();
     [SerializeField] private TextMeshProUGUI touchNotesCountText;
     [SerializeField] private TextMeshProUGUI judgmentText;
+    private int startI = 0;
+    private int endI = 4;
 
     void Update()
     {
-        for (int i = 0; i < 100; i++)
+        for (int i = startI; i < endI; i++)
         {
             if (tmc.IsNowAtTime(i))
             {
-                Logger.Log($"Now is Generate time: {i}");
+                Logger.Log("Now is Generate time", i);
                 noteJustTimeTexts[i % 4].Note = GenerateNote(notePositions[i % 4].x, notePositions[i % 4].y, i + 2);
-                if (i >= 3)
+                Logger.Log($"generatedTimes[i] + selfDestroyTime < Timer.GetPlayingTime() -> {generatedTimes[i]} + {selfDestroyTime} < {Timer.GetPlayingTime()} = {generatedTimes[i] + selfDestroyTime < Timer.GetPlayingTime()}");
+                if (generatedTimes[i] + selfDestroyTime < Timer.GetPlayingTime())
                 {
-                    RemoveNote(generatedNotes.Last());
+                    RemoveNote(generatedNotes[0]);
+                    startI++;
+                    endI++;
                 }
             }
         }
@@ -53,13 +56,16 @@ public class NoteManager : DontDestroySingleton<NoteManager>
         Note note = Instantiate(notePrefab, notesDirectory);
         note.Initialize(x, y, justTime, SumJudgments);
         note.gameObject.name = "Note_JustTime: " + justTime;
-        generatedNotes.Insert(0, note);
+        generatedNotes.Add(note);
+        generatedTimes.Add(Timer.GetPlayingTime());
         return note;
     }
 
     private void RemoveNote(Note removedNote)
     {
-        generatedNotes.Remove(removedNote);
+        int index = generatedNotes.IndexOf(removedNote);
+        generatedNotes.RemoveAt(index);
+        generatedTimes.RemoveAt(index);
         Destroy(removedNote.gameObject);
     }
 }

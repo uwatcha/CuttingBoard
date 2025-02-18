@@ -18,18 +18,22 @@ public static class Logger
     {
         UnityEngine.Debug.Log(tabMessage);
     }
-
+    public static void Log(string label, object o)
+    {
+        UnityEngine.Debug.Log($"{label}: {o}");
+    }
+    
     [Conditional("UNITY_EDITOR")]
-    public static void LogElements(IEnumerable collection, string collectionName = "")
+    public static void LogElements(string collectionName, IEnumerable collection)
     {
         string collectionValues = collection.ToCommaSeparatedString();
-        if (collectionName.Length > 0)
-        {
-            UnityEngine.Debug.Log($"{collectionName}: {collectionValues}");
-        }
-        else
-        {
-            UnityEngine.Debug.Log($"{collectionValues}");
-        }
+        UnityEngine.Debug.Log($"{collectionName}: {collectionValues}");
+    }  
+
+    [Conditional("UNITY_EDITOR")]
+    public static void LogElements(IEnumerable collection)
+    {
+        string collectionValues = collection.ToCommaSeparatedString();
+        UnityEngine.Debug.Log($"{collectionValues}");
     }  
 }
