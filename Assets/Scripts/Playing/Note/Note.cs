@@ -20,12 +20,9 @@ public class Note : MonoBehaviour
 
     public void OnPointerDown()
     {
-        Tuple<Judgment?, double> result = noteJudgment.Judge(this);
-        if (result.Item1 != null)
-        {
-            DestroyMyself();
-            judgmentResultApplier.Invoke(new(result.Item1.Value, result.Item2));
-        }
+        Tuple<Judgment, double> result = noteJudgment.Judge(this);
+        DestroyMyself();
+        judgmentResultApplier.Invoke(new(result.Item1, result.Item2));
     }
 
     private void DestroyMyself()

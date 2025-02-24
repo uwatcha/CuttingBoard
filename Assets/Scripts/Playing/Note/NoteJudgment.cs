@@ -16,7 +16,7 @@ public class NoteJudgment
     };
 
     // デバッグ用に画面上にtimingDiffを表示するためにdoubleも渡す
-    public Tuple<Judgment?, double> Judge(Note note)
+    public Tuple<Judgment, double> Judge(Note note)
     {
         double touchDiff = Timer.GetPlayingTime() - note.JustTime;
         double spanMilliseconds = 0;
@@ -28,6 +28,6 @@ public class NoteJudgment
                 return new(e.Key, touchDiff);
             }
         }
-        return null;
+        return new(Judgment.Miss, touchDiff);
     }
 }

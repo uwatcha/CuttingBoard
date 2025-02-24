@@ -21,6 +21,7 @@ public class NoteManager : DontDestroySingleton<NoteManager>
     private int endI = 4;
 
     private System.Random rnd = new();
+    //たまに左下のノーツが押しても反応しない気がするなんでやろ
     void Update()
     {
         for (int i = /*startI*/0; i < /*endI*/100; i++)
