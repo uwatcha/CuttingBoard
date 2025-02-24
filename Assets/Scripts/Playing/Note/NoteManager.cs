@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -10,28 +9,29 @@ public class NoteManager : DontDestroySingleton<NoteManager>
     [SerializeField] private Note notePrefab;
     private readonly TimeMatchChecker tmc = new();
     [SerializeField] private List<JustTimeText> noteJustTimeTexts;
-    private readonly List<Vector2> notePositions = new() { new(4, 7.5f), new(12, 7.5f), new(12, 2.5f), new(4, 2.5f) };
+    private readonly List<Vector2> dev_notePositions = new() { new(4, 7.5f), new(12, 7.5f), new(12, 2.5f), new(4, 2.5f) };
     [SerializeField] private Transform notesDirectory;
     private List<Tuple<Judgment, double>> results = new();
     [SerializeField] private TextMeshProUGUI touchedNotesCountText;
     [SerializeField] private TextMeshProUGUI judgmentText;
     [SerializeField] private TextMeshProUGUI timingDiffText;
-    //TODO: ここ実装
-    private int startI = 0;
-    private int endI = 4;
-
-    private System.Random rnd = new();
+    private System.Random dev_rnd = new();
     //たまに左下のノーツが押しても反応しない気がするなんでやろ
     void Update()
     {
-        for (int i = /*startI*/0; i < /*endI*/100; i++)
+        Dev_GenerateNotes();
+    }
+    private void Dev_GenerateNotes()
+    {
+        for (int i = 0; i < 100; i++)
         {
             if (tmc.IsNowAtTime(i))
             {
-                Logger.Log($"Note Generate. (i: {i})");
-                float rndX = rnd.Next(-5, 5)/10f;
-                float rndY = rnd.Next(-5, 5)/10f;
-                noteJustTimeTexts[i % 4].Note = GenerateNote(notePositions[i % 4].x+rndX, notePositions[i % 4].y+rndY, i + 2);
+                // 開発用に表示位置をずらしている。開発時は適当に位置がばらけた方が画面に変化が表れて嬉しい。
+                float rndX = dev_rnd.Next(-5, 5)/10f;
+                float rndY = dev_rnd.Next(-5, 5)/10f;
+                noteJustTimeTexts[i % 4].Note = GenerateNote(dev_notePositions[i % 4].x+rndX, dev_notePositions[i % 4].y+rndY, i + 2);
+
             }
         }
     }
