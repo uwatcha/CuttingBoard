@@ -17,16 +17,12 @@ public class NoteJudgment
     public Judgment? Judge(Note note)
     {
         double touchDiff = Timer.GetPlayingTime() - note.JustTime;
-        Logger.Log($"PlayingTime - JustTime = TouchDiff: {Timer.GetPlayingTime()} - {note.JustTime} = {touchDiff}");
         double spanMilliseconds = 0;
         foreach (KeyValuePair<Judgment, double> e in judgmentSpans)
         {
             spanMilliseconds += e.Value;
-            Logger.Log($"e.Value: {e.Value}");
-            Logger.Log($"spanMilliseconds: {spanMilliseconds}");
             if (Math.Abs(touchDiff) < spanMilliseconds)
             {
-                Logger.Log($"Judged Note: {note.gameObject.name}, {e.Key}");
                 return e.Key;
             }
         }
