@@ -5,6 +5,7 @@ public class NoteJudgment
 {
     //これらのスパンは、例えばGREAT_SPANは、PERFECT_SPANとGOOD_SPANの間の時間を表す
     //TODO: Inspectorから設定できるようにする
+    //TODO: Noteを出現した瞬間から押せるようにする
     private readonly List<KeyValuePair<Judgment, double>> judgmentSpans = new()
     {
         new(Judgment.Perfect, 0.1),
@@ -14,7 +15,8 @@ public class NoteJudgment
         new(Judgment.Miss, 0.1)
     };
 
-    public Judgment? Judge(Note note)
+    // デバッグ用に画面上にtimingDiffを表示するためにdoubleも渡す
+    public Tuple<Judgment?, double> Judge(Note note)
     {
         double touchDiff = Timer.GetPlayingTime() - note.JustTime;
         double spanMilliseconds = 0;
@@ -23,7 +25,7 @@ public class NoteJudgment
             spanMilliseconds += e.Value;
             if (Math.Abs(touchDiff) < spanMilliseconds)
             {
-                return e.Key;
+                return new(e.Key, touchDiff);
             }
         }
         return null;

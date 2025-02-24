@@ -7,9 +7,9 @@ public class Note : MonoBehaviour
     public double JustTime => justTime;
     private double selfDestroyTime;
     private NoteJudgment noteJudgment = new();
-    private Action<Judgment> judgmentResultApplier;
+    private Action<Tuple<Judgment, double>> judgmentResultApplier;
     
-    public void Initialize(float x, float y, double justMilliseconds, double selfDestroyTime, Action<Judgment> judgmentResultApplier)
+    public void Initialize(float x, float y, double justMilliseconds, double selfDestroyTime, Action<Tuple<Judgment, double>> judgmentResultApplier)
     {
         transform.position = new Vector3 (x, y, 0);
         this.justTime = justMilliseconds;
@@ -20,11 +20,11 @@ public class Note : MonoBehaviour
 
     public void OnPointerDown()
     {
-        Judgment? result = noteJudgment.Judge(this);
-        if (result != null)
+        Tuple<Judgment?, double> result = noteJudgment.Judge(this);
+        if (result.Item1 != null)
         {
             DestroyMyself();
-            judgmentResultApplier.Invoke(result.Value);
+            judgmentResultApplier.Invoke(new(result.Item1.Value, result.Item2));
         }
     }
 
