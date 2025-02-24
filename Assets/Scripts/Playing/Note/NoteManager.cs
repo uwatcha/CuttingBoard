@@ -10,9 +10,8 @@ public class NoteManager : DontDestroySingleton<NoteManager>
     [SerializeField] private List<JustTimeText> noteJustTimeTexts;
     private readonly List<Vector2> notePositions = new() { new(4, 7.5f), new(12, 7.5f), new(12, 2.5f), new(4, 2.5f) };
     [SerializeField] private Transform notesDirectory;
-    private NoteJudgment noteJudgment = new();
     private List<Judgment> results = new();
-    [SerializeField] private TextMeshProUGUI touchNotesCountText;
+    [SerializeField] private TextMeshProUGUI touchedNotesCountText;
     [SerializeField] private TextMeshProUGUI judgmentText;
     private int startI = 0;
     private int endI = 4;
@@ -32,23 +31,18 @@ public class NoteManager : DontDestroySingleton<NoteManager>
         }
     }
 
-    private void SumJudgments(Note note)
+    private void ApplyJudgmentResult(Judgment result)
     {
-        Judgment? result = noteJudgment.Judge(note);
-        if (result != null)
-        {
-            results.Add(result.Value);
-            Destroy(note.gameObject);
-            touchNotesCountText.text = $"TouchNotes: {results.Count}";
-            judgmentText.text = $"{result.Value}";
-        }
+        results.Add(result);
+        touchedNotesCountText.text = $"TouchedNotesCount: {results.Count}";
+        judgmentText.text = $"{result}";
     }
 
     private Note GenerateNote(float x, float y, float justTime)
     {
         Note note = Instantiate(notePrefab, notesDirectory);
         double selfDestroyTime = 3;
-        note.Initialize(x, y, justTime, selfDestroyTime, SumJudgments);
+        note.Initialize(x, y, justTime, selfDestroyTime, ApplyJudgmentResult);
         note.gameObject.name = "Note_JustTime: " + justTime;
         return note;
     }
