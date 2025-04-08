@@ -11,6 +11,7 @@ public class NoteManager : DontDestroySingleton<NoteManager>
     [SerializeField] private List<JustTimeText> noteJustTimeTexts;
     private readonly List<Vector2> dev_notePositions = new() { new(4, 7.5f), new(12, 7.5f), new(12, 2.5f), new(4, 2.5f) };
     [SerializeField] private Transform notesDirectory;
+    //doubleの要素はジャストタイミングからズレた秒数
     private List<Tuple<Judgment, double>> results = new();
     [SerializeField] private TextMeshProUGUI touchedNotesCountText;
     [SerializeField] private TextMeshProUGUI judgmentText;
@@ -36,7 +37,7 @@ public class NoteManager : DontDestroySingleton<NoteManager>
         }
     }
 
-    private void ApplyJudgmentResult(Tuple<Judgment, double> result)
+    public void ApplyJudgmentResult(Tuple<Judgment, double> result)
     {
         results.Add(result);
         touchedNotesCountText.text = $"TouchedNotesCount: {results.Count}";
@@ -48,7 +49,7 @@ public class NoteManager : DontDestroySingleton<NoteManager>
     {
         Note note = Instantiate(notePrefab, notesDirectory);
         double selfDestroyTime = 3;
-        note.Initialize(x, y, justTime, selfDestroyTime, ApplyJudgmentResult);
+        note.Initialize(x, y, justTime, selfDestroyTime);
         note.gameObject.name = "Note_JustTime: " + justTime;
         return note;
     }
