@@ -1,13 +1,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GroupNotes : MonoBehaviour
+public class GroupNotes : MonoBehaviour, INote
 {
     [SerializeField] private Note note1;
     [SerializeField] private Note note2;
-    public void Initialize(float x1, float y1, float x2, float y2, double justMilliseconds, double selfDestroyTime)
+
+    private double justTime;
+    public double JustTime => justTime;
+
+    public void Initialize(NoteProps noteProps)
     {
-        note1.Initialize(x1, y1, justMilliseconds, selfDestroyTime);
-        note1.Initialize(x2, y2, justMilliseconds, selfDestroyTime);
+        justTime = noteProps.justMilliseconds;
+        NoteProps props1 = new(noteProps.justMilliseconds, noteProps.selfDestroyTime, noteProps.coordinates[0]);
+        NoteProps props2 = new(noteProps.justMilliseconds, noteProps.selfDestroyTime, noteProps.coordinates[1]);
+        note1.Initialize(props1);
+        note2.Initialize(props2);
+        Invoke(nameof(DestroyMyself), (float)noteProps.selfDestroyTime);
+    }
+
+    public void DestroyMyself()
+    {
+        Destroy(gameObject);
     }
 }

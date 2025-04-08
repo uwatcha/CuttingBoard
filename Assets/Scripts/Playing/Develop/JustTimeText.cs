@@ -4,8 +4,8 @@ using UnityEngine;
 public class JustTimeText : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI text;
-    private Note note;
-    public Note Note
+    private INote note;
+    public INote Note
     {
         set
         {
